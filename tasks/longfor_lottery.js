@@ -52,9 +52,9 @@ try
         bucode=`L00602`;
         app='App';
     }
-    const component_no=getParam('cn');
-    const activity_no=getParam('an');    
-    body = `{"component_no":component_no,"activity_no":activity_no}`;
+    const cno=getParam('cn');
+    const ano=getParam('an');    
+    body = `{"component_no":${cno},"activity_no":${ano}}`;
     
     authtoken = getParam("at");
     cookie = getParam("ck");
@@ -115,7 +115,7 @@ $task.fetch(signRequest).then(response1 => {
         if (result1.code !== "0000") 
         {
             // 签到失败，推送通知
-            log(`签到失败: ${result1.message || response1.body}`);
+            log(`签到失败: ${response1.body}`);
             $done();
             return;
         }        
@@ -143,7 +143,7 @@ $task.fetch(signRequest).then(response1 => {
                 else 
                 {
                     // 抽取成功 API 返回错误码
-                    log(`抽取失败: ${result2.message || response2.body}`);
+                    log(`抽取失败: ${response2.body}`);
                 }
             } 
             catch (e) 
