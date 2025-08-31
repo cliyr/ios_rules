@@ -15,13 +15,56 @@ var app=``;
 //gak=gaiaapikey
 //drt=DXRiskToken
 //iw=iswx
-try
+//cn=component_no
+//an=activity_no
+
+// 获取脚本参数
+const sourcePath = $environment.sourcePath;
+const sourceUrl = new URL(sourcePath);
+const sourceHash = sourceUrl.hash;
+const scriptParams = new URLSearchParams(sourceHash.substring(1));
+
+function getParam(name)
 {
-    const sourcePath = $environment.sourcePath;
-    const sourceUrl = new URL(sourcePath);
-    const sourceHash = sourceUrl.hash;
-    // 获取脚本参数
-    const scriptParams = new URLSearchParams(sourceHash.substring(1));
+    if (scriptParams.has(name)) 
+    {
+        return scriptParams.get(name);
+    }
+    else
+    {
+        throw new Error(`没有参数：`+name);
+    }
+}
+
+try
+{    
+    if (scriptParams.has("iw")) {
+       const iswx = scriptParams.get("iw");
+       if(iswx == '1')
+        {
+            ua = 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.50(0x1800323d) NetType/WIFI Language/zh_CN miniProgram/wx50282644351869da';
+            channel='C2';
+            bucode=`C20400`;
+            body = `{"component_no":"CE13Q42B02A04I6W","activity_no":"AP25Z07390KXCWDP"}`;
+            app='Wechat';
+        }
+        else
+         {
+           ua = `Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 &MAIAWebKit_iOS_com.longfor.supera_1.16.8_202508121148_Default_3.2.4.9`;
+           channel='L0';
+           bucode=`L00602`;
+            app='App';
+         }
+    }
+    else
+    {
+        throw new Error(`没有参数：iw`);
+    }
+
+    const component_no=getParam('cn');
+    const activity_no=getParam('an');
+    
+    body = `{"component_no":component_no,"activity_no":activity_no}`;
     
     if (scriptParams.has("at")) {
         authtoken = scriptParams.get("at");
@@ -50,29 +93,6 @@ try
     else
     {
       throw new Error(`没有参数：drt`);
-    }
-    if (scriptParams.has("iw")) {
-       const iswx = scriptParams.get("iw");
-       if(iswx == '1')
-        {
-            ua = 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.50(0x1800323d) NetType/WIFI Language/zh_CN miniProgram/wx50282644351869da';
-            channel='C2';
-            bucode=`C20400`;
-            body = `{"component_no":"CE13Q42B02A04I6W","activity_no":"AP25Z07390KXCWDP"}`;
-            app='Wechat';
-        }
-        else
-         {
-           ua = `Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 &MAIAWebKit_iOS_com.longfor.supera_1.16.8_202508121148_Default_3.2.4.9`;
-           channel='L0';
-           bucode=`L00602`;
-           body = `{"component_no":"CC16118V10V3U9HA","activity_no":"AP25F082V945THJE"}`;
-            app='App';
-         }
-    }
-    else
-    {
-        throw new Error(`没有参数：iw`);
     }
 }
 catch(e)
