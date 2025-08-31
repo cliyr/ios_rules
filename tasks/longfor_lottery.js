@@ -38,62 +38,28 @@ function getParam(name)
 
 try
 {    
-    if (scriptParams.has("iw")) {
-       const iswx = scriptParams.get("iw");
-       if(iswx == '1')
-        {
-            ua = 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.50(0x1800323d) NetType/WIFI Language/zh_CN miniProgram/wx50282644351869da';
-            channel='C2';
-            bucode=`C20400`;
-            body = `{"component_no":"CE13Q42B02A04I6W","activity_no":"AP25Z07390KXCWDP"}`;
-            app='Wechat';
-        }
-        else
-         {
-           ua = `Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 &MAIAWebKit_iOS_com.longfor.supera_1.16.8_202508121148_Default_3.2.4.9`;
-           channel='L0';
-           bucode=`L00602`;
-            app='App';
-         }
+    if(getParam("iw") == '1')
+    {
+        ua = 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.50(0x1800323d) NetType/WIFI Language/zh_CN miniProgram/wx50282644351869da';
+        channel='C2';
+        bucode=`C20400`;
+        app='Wechat';
     }
     else
     {
-        throw new Error(`没有参数：iw`);
+        ua = `Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 &MAIAWebKit_iOS_com.longfor.supera_1.16.8_202508121148_Default_3.2.4.9`;
+        channel='L0';
+        bucode=`L00602`;
+        app='App';
     }
-
     const component_no=getParam('cn');
-    const activity_no=getParam('an');
-    
+    const activity_no=getParam('an');    
     body = `{"component_no":component_no,"activity_no":activity_no}`;
     
-    if (scriptParams.has("at")) {
-        authtoken = scriptParams.get("at");
-    }
-    else
-    {
-        throw new Error(`没有参数：at`);
-    }
-    if (scriptParams.has("ck")) {
-        cookie = scriptParams.get("ck");
-    }
-    else
-    {
-        throw new Error(`没有参数：ck`);
-    }
-    if (scriptParams.has("gak")) {
-        xgaiaapikey = scriptParams.get("gak");
-    }
-    else
-    {
-       throw new Error(`没有参数：gak`);
-    }
-    if (scriptParams.has("drt")) {
-        dxRiskToken = scriptParams.get("drt");
-    }
-    else
-    {
-      throw new Error(`没有参数：drt`);
-    }
+    authtoken = getParam("at");
+    cookie = getParam("ck");
+    xgaiaapikey = getParam("gak");
+    dxRiskToken = getParam("drt");
 }
 catch(e)
 {
@@ -143,6 +109,7 @@ $task.fetch(signRequest).then(response1 => {
         if (result1.code !== "0000") 
         {
             // 签到失败，推送通知
+            console.log('龙珠抽取'+ app +'签到失败'+response1.body);
             $notify("龙珠抽取", app, `签到失败: ${result1.message || response1.body}`);
             $done();
             return;
@@ -171,6 +138,7 @@ $task.fetch(signRequest).then(response1 => {
                 else 
                 {
                     // 抽取成功 API 返回错误码
+                    console.log('龙珠抽取'+ app +'抽取失败'+response1.body);
                     $notify("龙珠抽取", app, `抽取失败: ${result2.message || response2.body}`);
                 }
             } 
