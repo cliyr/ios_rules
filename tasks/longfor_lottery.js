@@ -18,12 +18,12 @@ var app=``;
 //cn=component_no
 //an=activity_no
 
+
 // 获取脚本参数
 const sourcePath = $environment.sourcePath;
 const sourceUrl = new URL(sourcePath);
 const sourceHash = sourceUrl.hash;
 const scriptParams = new URLSearchParams(sourceHash.substring(1));
-
 function getParam(name)
 {
     if (scriptParams.has(name)) 
@@ -71,6 +71,12 @@ catch(e)
     return;
 }
 
+function log(msg)
+{
+    console.log('【龙珠抽取】'+ app + msg);
+    $notify("龙珠抽取", app, msg);
+}
+
 
 const headers = {
 'x-gaia-api-key' : xgaiaapikey,
@@ -109,8 +115,7 @@ $task.fetch(signRequest).then(response1 => {
         if (result1.code !== "0000") 
         {
             // 签到失败，推送通知
-            console.log('龙珠抽取'+ app +'签到失败'+response1.body);
-            $notify("龙珠抽取", app, `签到失败: ${result1.message || response1.body}`);
+            log(`签到失败: ${result1.message || response1.body}`);
             $done();
             return;
         }        
@@ -133,24 +138,23 @@ $task.fetch(signRequest).then(response1 => {
                     const data1 = result2.data?.prize_name || "未知奖品";
                     const data2 = result2.data?.reward_num ? Number(result2.data.reward_num).toFixed(1) : "未知数据";
                     const combinedData = `抽取完成: ${data1}：${data2}`;                    
-                    $notify("龙珠抽取", app, combinedData);
+                    log(combinedData);
                 } 
                 else 
                 {
                     // 抽取成功 API 返回错误码
-                    console.log('龙珠抽取'+ app +'抽取失败'+response1.body);
-                    $notify("龙珠抽取", app, `抽取失败: ${result2.message || response2.body}`);
+                    log(`抽取失败: ${result2.message || response2.body}`);
                 }
             } 
             catch (e) 
             {
                 // 抽取API JSON 解析错误
-                $notify("龙珠抽取", app, `抽取异常: ${e.message}`);
+                log(`抽取异常: ${e.message}`);
             }
             $done();
         }, reason2 => {
             // 第二个 API 网络请求失败
-            $notify("龙珠抽取", app, `抽取请求失败: ${reason2.error}`);
+            log(`抽取请求失败: ${reason2.error}`);
             $done();
         });
         
@@ -158,11 +162,11 @@ $task.fetch(signRequest).then(response1 => {
     catch (e) 
     {
         // 签到 API JSON 解析错误
-        $notify("龙珠抽取", app, `签到异常: ${e.message}`);
+        log(`签到异常: ${e.message}`);
         $done();
     }
 }, reason1 => {
     // 第一个 API 网络请求失败
-    $notify("龙珠抽取", app, `签到请求失败: ${reason1.error}`);
+    log(`签到请求失败: ${reason1.error}`);
     $done();
 });
