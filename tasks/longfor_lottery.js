@@ -63,13 +63,12 @@ catch(e)
     return;
 }
 
-function log(msg,err==null)
+function log(msg, err = null) 
 {
-    var m='【龙珠抽取】'+ app + msg;
-    if(err!=null)
-    {
-        m=m+err;
-    }
+    var m = '【龙珠抽取】' + app + msg;    
+    if (err !== null) {
+        m = m + err;
+    }    
     console.log(m);
     $notify("龙珠抽取", app, msg);
 }
