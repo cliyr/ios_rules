@@ -1,1 +1,9 @@
-{"name":"Sample","task":[{"config":"0 0 * * * https:\/\/raw.githubusercontent.com\/crossutility\/Quantumult-X\/master\/sample-task.js#force-timeout=10000&method=POST, img-url=https:\/\/raw.githubusercontent.com\/crossutility\/Quantumult-X\/master\/quantumult-x.png, tag=Sample, enabled=true","addons":"https:\/\/raw.githubusercontent.com\/crossutility\/Quantumult-X\/master\/sample-import-rewrite.snippet"}],"description":"This is a sample."}
+{
+  "name":"龙湖",
+  "task":[
+    {
+      "config":"0 0 * * * https:\/\/raw.githubusercontent.com\/crossutility\/Quantumult-X\/master\/sample-task.js#force-timeout=10000&method=POST, img-url=https://www.longfor.com/static/images/longfor.ico, tag=Sample, enabled=true",
+    }
+  ],
+  "description":"龙湖签到和龙珠抽取"
+}
