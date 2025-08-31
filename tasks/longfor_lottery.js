@@ -1,41 +1,90 @@
-/**
- * App龙珠抽取
- */
-
-const ua=`Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 &MAIAWebKit_iOS_com.longfor.supera_1.16.8_202508121148_Default_3.2.4.9`;
 const method = `POST`;
-const authtoken = `1dd8e4cbe911448e8f80b882b58ceb87`;
-const cookie = `acw_tc=ac11000117566012500045810eb53ec36c8641aaaf084e630507bb4d3de836`;
-const xgaiaapikey = `2f9e3889-91d9-4684-8ff5-24d881438eaf`;
-const dxRiskToken = `68b39bc8939vUh16t3tlk8koyQpOQpa1e8uVptA1`;
-const body = `{"component_no":"CC16118V10V3U9HA","activity_no":"AP25F082V945THJE"}`;
-const bucode=`L00602`;
+var ua=``;
+var authtoken = ``;
+var cookie = ``;
+var xgaiaapikey = ``;
+var dxRiskToken = ``;
+var channel='';
+var body = ``;
+var bucode=``;
+var app=``;
 
 //API格式：longfor_lottery.js#authtoken=AAA&cookie=BBB&gaiaapikey=CCC&DXRiskToken=DDDD&iswx=1
-const sourceUrl = new URL(sourcePath);
-const sourceHash = sourceUrl.hash;
-// 获取脚本参数
-const scriptParams = new URLSearchParams(sourceHash.substring(1));
-
-if (scriptParams.has("authtoken")) {
-    authtoken = scriptParams.get("authtoken");
-}
-if (scriptParams.has("cookie")) {
-    cookie = scriptParams.get("cookie");
-}
-if (scriptParams.has("gaiaapikey")) {
-    xgaiaapikey = scriptParams.get("gaiaapikey");
-}
-if (scriptParams.has("DXRiskToken")) {
-    dxRiskToken = scriptParams.get("DXRiskToken");
-}
-if (scriptParams.has("iswx")) {
-   const iswx = scriptParams.get("iswx");
-   if(iswx == '1')
+//at=authtoken
+//ck=cookie
+//gak=gaiaapikey
+//drt=DXRiskToken
+//iw=iswx
+try
+{
+    const sourcePath = $environment.sourcePath;
+    const sourceUrl = new URL(sourcePath);
+    const sourceHash = sourceUrl.hash;
+    // 获取脚本参数
+    const scriptParams = new URLSearchParams(sourceHash.substring(1));
+    
+    if (scriptParams.has("at")) {
+        authtoken = scriptParams.get("at");
+    }
+    else
     {
-        ua = '';
+        throw new Error(`没有参数：at`);
+    }
+    if (scriptParams.has("ck")) {
+        cookie = scriptParams.get("ck");
+    }
+    else
+    {
+        throw new Error(`没有参数：ck`);
+    }
+    if (scriptParams.has("gak")) {
+        xgaiaapikey = scriptParams.get("gak");
+    }
+    else
+    {
+       throw new Error(`没有参数：gak`);
+    }
+    if (scriptParams.has("drt")) {
+        dxRiskToken = scriptParams.get("drt");
+    }
+    else
+    {
+      throw new Error(`没有参数：drt`);
+    }
+    if (scriptParams.has("iw")) {
+       const iswx = scriptParams.get("iw");
+       if(iswx == '1')
+        {
+            ua = 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.50(0x1800323d) NetType/WIFI Language/zh_CN miniProgram/wx50282644351869da';
+            channel='C2';
+            bucode=`C20400`;
+            body = `{"component_no":"CE13Q42B02A04I6W","activity_no":"AP25Z07390KXCWDP"}`;
+            app='Wechat';
+        }
+        else
+         {
+           ua = `Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 &MAIAWebKit_iOS_com.longfor.supera_1.16.8_202508121148_Default_3.2.4.9`;
+           channel='L0';
+           bucode=`L00602`;
+           body = `{"component_no":"CC16118V10V3U9HA","activity_no":"AP25F082V945THJE"}`;
+            app='App';
+         }
+    }
+    else
+    {
+        throw new Error(`没有参数：iw`);
     }
 }
+catch(e)
+{
+    console.log('\r↓↓↓↓↓↓↓ 龙湖龙珠抽取异常 ↓↓↓↓↓↓↓'+app);
+    console.log('初始化参数异常：'+e.message);
+    console.log(e.stack);
+    console.log('↑↑↑↑↑↑↑ 龙湖龙珠抽取异常 ↑↑↑↑↑↑↑\r'+app);
+    $done();
+    return;
+}
+
 
 const headers = {
 'x-gaia-api-key' : xgaiaapikey,
@@ -44,12 +93,12 @@ const headers = {
 'authtoken' : authtoken,
 'User-Agent' : ua,
 'bucode' : bucode,
+'channel' : channel,
 'Accept-Encoding' : `gzip, deflate, br`,
 'Host' : `gw2c-hw-open.longfor.com`,
 'Origin' : `https://llt.longfor.com`,
 'Sec-Fetch-Dest' : `empty`,
 'Connection' : `keep-alive`,
-'channel' : `L0`,
 'Sec-Fetch-Site' : `same-site`,
 'Content-Type' : `application/json`,
 'Referer' : `https://llt.longfor.com/`,
@@ -74,7 +123,7 @@ $task.fetch(signRequest).then(response1 => {
         if (result1.code !== "0000") 
         {
             // 签到失败，推送通知
-            $notify("龙湖Gallery", "龙珠抽取", `签到失败: ${result1.message || response1.body}`);
+            $notify("龙珠抽取", app, `签到失败: ${result1.message || response1.body}`);
             $done();
             return;
         }        
@@ -97,23 +146,23 @@ $task.fetch(signRequest).then(response1 => {
                     const data1 = result2.data?.prize_name || "未知奖品";
                     const data2 = result2.data?.reward_num ? Number(result2.data.reward_num).toFixed(1) : "未知数据";
                     const combinedData = `抽取完成: ${data1}：${data2}`;                    
-                    $notify("龙湖Gallery", "龙珠抽取", combinedData);
+                    $notify("龙珠抽取", app, combinedData);
                 } 
                 else 
                 {
                     // 抽取成功 API 返回错误码
-                    $notify("龙湖Gallery", "龙珠抽取", `抽取失败: ${result2.message || response2.body}`);
+                    $notify("龙珠抽取", app, `抽取失败: ${result2.message || response2.body}`);
                 }
             } 
             catch (e) 
             {
                 // 抽取API JSON 解析错误
-                $notify("龙湖Gallery", "龙珠抽取", `抽取异常: ${e.message}`);
+                $notify("龙珠抽取", app, `抽取异常: ${e.message}`);
             }
             $done();
         }, reason2 => {
             // 第二个 API 网络请求失败
-            $notify("龙湖Gallery", "龙珠抽取", `抽取请求失败: ${reason2.error}`);
+            $notify("龙珠抽取", app, `抽取请求失败: ${reason2.error}`);
             $done();
         });
         
@@ -121,11 +170,11 @@ $task.fetch(signRequest).then(response1 => {
     catch (e) 
     {
         // 签到 API JSON 解析错误
-        $notify("龙湖Gallery", "龙珠抽取", `签到异常: ${e.message}`);
+        $notify("龙珠抽取", app, `签到异常: ${e.message}`);
         $done();
     }
 }, reason1 => {
     // 第一个 API 网络请求失败
-    $notify("龙湖Gallery", "龙珠抽取", `签到请求失败: ${reason1.error}`);
+    $notify("龙珠抽取", app, `签到请求失败: ${reason1.error}`);
     $done();
 });
