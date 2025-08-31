@@ -1,18 +1,45 @@
 /**
  * App龙珠抽取
  */
+
 const ua=`Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 &MAIAWebKit_iOS_com.longfor.supera_1.16.8_202508121148_Default_3.2.4.9`;
 const method = `POST`;
 const authtoken = `1dd8e4cbe911448e8f80b882b58ceb87`;
 const cookie = `acw_tc=ac11000117566012500045810eb53ec36c8641aaaf084e630507bb4d3de836`;
-const x-gaia-api-key = `2f9e3889-91d9-4684-8ff5-24d881438eaf`;
-const X-LF-DXRisk-Token = `68b39bc8939vUh16t3tlk8koyQpOQpa1e8uVptA1`;
+const xgaiaapikey = `2f9e3889-91d9-4684-8ff5-24d881438eaf`;
+const dxRiskToken = `68b39bc8939vUh16t3tlk8koyQpOQpa1e8uVptA1`;
 const body = `{"component_no":"CC16118V10V3U9HA","activity_no":"AP25F082V945THJE"}`;
 const bucode=`L00602`;
 
+//API格式：longfor_lottery.js#authtoken=AAA&cookie=BBB&gaiaapikey=CCC&DXRiskToken=DDDD&iswx=1
+const sourceUrl = new URL(sourcePath);
+const sourceHash = sourceUrl.hash;
+// 获取脚本参数
+const scriptParams = new URLSearchParams(sourceHash.substring(1));
+
+if (scriptParams.has("authtoken")) {
+    authtoken = scriptParams.get("authtoken");
+}
+if (scriptParams.has("cookie")) {
+    cookie = scriptParams.get("cookie");
+}
+if (scriptParams.has("gaiaapikey")) {
+    xgaiaapikey = scriptParams.get("gaiaapikey");
+}
+if (scriptParams.has("DXRiskToken")) {
+    dxRiskToken = scriptParams.get("DXRiskToken");
+}
+if (scriptParams.has("iswx")) {
+   const iswx = scriptParams.get("iswx");
+   if(iswx == '1')
+    {
+        ua = '';
+    }
+}
+
 const headers = {
-'x-gaia-api-key' : x-gaia-api-key,
-'X-LF-DXRisk-Token' : X-LF-DXRisk-Token,
+'x-gaia-api-key' : xgaiaapikey,
+'X-LF-DXRisk-Token' : dxRiskToken,
 'Cookie' : cookie,
 'authtoken' : authtoken,
 'User-Agent' : ua,
