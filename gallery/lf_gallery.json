@@ -2,7 +2,7 @@
   "name":"龙湖",
   "task":[
     {
-      "config":"0 0 * * * https:\/\/raw.githubusercontent.com\/crossutility\/Quantumult-X\/master\/sample-task.js#force-timeout=10000&method=POST, img-url=https://www.longfor.com/static/images/longfor.ico, tag=Sample, enabled=true",
+      "config":"0 0 * * * https:\/\/raw.githubusercontent.com\/crossutility\/Quantumult-X\/master\/sample-task.js#force-timeout=10000&method=POST, img-url=https://longfor-official-website-online.oss-cn-beijing.aliyuncs.com/operations_img01_1721884614193.png, tag=Sample, enabled=true",
     }
   ],
   "description":"龙湖签到和龙珠抽取"
