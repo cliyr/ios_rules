@@ -9,15 +9,7 @@ var body = ``;
 var bucode=``;
 var app=``;
 
-//API格式：longfor_lottery.js#authtoken=AAA&cookie=BBB&gaiaapikey=CCC&DXRiskToken=DDDD&iswx=1
-//at=authtoken
-//ck=cookie
-//gak=gaiaapikey
-//drt=DXRiskToken
-//iw=iswx
-//cn=component_no
-//an=activity_no
-
+//API格式：longfor_lottery.js#at=AAA
 
 // 获取脚本参数
 const sourcePath = $environment.sourcePath;
@@ -71,9 +63,14 @@ catch(e)
     return;
 }
 
-function log(msg)
+function log(msg,err==null)
 {
-    console.log('【龙珠抽取】'+ app + msg);
+    var m='【龙珠抽取】'+ app + msg;
+    if(err!=null)
+    {
+        m=m+err;
+    }
+    console.log(m);
     $notify("龙珠抽取", app, msg);
 }
 
@@ -115,7 +112,7 @@ $task.fetch(signRequest).then(response1 => {
         if (result1.code !== "0000") 
         {
             // 签到失败，推送通知
-            log(`签到失败: ${response1.body}`);
+            log(`签到失败: ${result1.message||response1.body}`,response1.body);
             $done();
             return;
         }        
@@ -138,12 +135,12 @@ $task.fetch(signRequest).then(response1 => {
                     const data1 = result2.data?.prize_name || "未知奖品";
                     const data2 = result2.data?.reward_num ? Number(result2.data.reward_num).toFixed(1) : "未知数据";
                     const combinedData = `抽取完成: ${data1}：${data2}`;                    
-                    log(combinedData);
+                    log(combinedData,response2.body);
                 } 
                 else 
                 {
                     // 抽取成功 API 返回错误码
-                    log(`抽取失败: ${response2.body}`);
+                    log(`抽取失败: ${result2.message||response2.body}`,response2.body);
                 }
             } 
             catch (e) 
