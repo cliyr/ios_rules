@@ -54,7 +54,7 @@ try
     }
     const cno=getParam('cn');
     const ano=getParam('an');    
-    body = `{"component_no":${cno},"activity_no":${ano}}`;
+    body = `{"component_no":"${cno}","activity_no":"${ano}"}`;
     
     authtoken = getParam("at");
     cookie = getParam("ck");
