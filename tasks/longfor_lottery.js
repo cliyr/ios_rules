@@ -1,3 +1,4 @@
+console.log("开始运行抽取脚本");
 const method = `POST`;
 var ua=``;
 var authtoken = ``;
@@ -8,6 +9,8 @@ var channel='';
 var body = ``;
 var bucode=``;
 var app=``;
+
+console.log("开始初始化休眠函数");
 
 // 休眠随机时间函数
 function sleepRandom(minMs = 1000, maxMs = 5000) {
@@ -36,6 +39,8 @@ function sleepRandom(minMs = 1000, maxMs = 5000) {
     }   
 }
 
+console.log("初始化脚本参数");
+
 //API格式：longfor_lottery.js#at=AAA
 
 // 获取脚本参数
@@ -55,6 +60,7 @@ function getParam(name)
     }
 }
 
+console.log("准备第1次休眠");
 await sleepRandom(1000, 60000);
 
 try
@@ -92,8 +98,11 @@ catch(e)
     return;
 }
 
+console.log("准备第2次休眠");
 await sleepRandom(1000, 60000);
 
+
+console.log("初始化日志");
 function log(msg, err = null) 
 {
     var m = '【龙珠抽取】' + app + msg;    
@@ -147,6 +156,7 @@ $task.fetch(signRequest).then(response1 => {
             return;
         }        
         
+        console.log("准备第3次休眠");
         await sleepRandom(10000, 60000);
         
         // 签到成功，继续抽取
