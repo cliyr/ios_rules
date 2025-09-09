@@ -9,6 +9,12 @@ var body = ``;
 var bucode=``;
 var app=``;
 
+// 休眠随机时间函数
+function sleepRandom(minMs, maxMs) {
+    const delay = Math.floor(Math.random() * (maxMs - minMs + 1)) + minMs;
+    return new Promise(resolve => setTimeout(resolve, delay));
+}
+
 //API格式：longfor_lottery.js#at=AAA
 
 // 获取脚本参数
@@ -27,6 +33,8 @@ function getParam(name)
         throw new Error(`没有参数：`+name);
     }
 }
+
+await sleepRandom(1000, 60000);
 
 try
 {    
@@ -62,6 +70,8 @@ catch(e)
     $done();
     return;
 }
+
+await sleepRandom(1000, 60000);
 
 function log(msg, err = null) 
 {
@@ -115,6 +125,9 @@ $task.fetch(signRequest).then(response1 => {
             $done();
             return;
         }        
+        
+        await sleepRandom(10000, 60000);
+        
         // 签到成功，继续抽取
         const clickRequest = {
             url: "https://gw2c-hw-open.longfor.com/llt-gateway-prod/api/v1/activity/auth/lottery/click",            
