@@ -13,30 +13,9 @@ var app=``;
 console.log("开始初始化休眠函数");
 
 // 休眠随机时间函数
-function sleepRandom(minMs = 1000, maxMs = 5000) {
-    try
-    {
-         // 输入验证和限制
-        const validatedMin = Math.max(100, parseInt(minMs) || 1000);
-        const validatedMax = Math.min(
-            300000, // 5分钟限制
-            Math.max(validatedMin + 100, parseInt(maxMs) || 5000)
-        );        
-        const delay = Math.floor(Math.random() * (validatedMax - validatedMin + 1)) + validatedMin;
-        
-        console.log(`⏰ 随机休眠: ${delay}ms (${Math.round(delay/1000)}秒)`);
-        
-        return new Promise(resolve => {
-            const timer = setTimeout(() => {
-                clearTimeout(timer);
-                resolve();
-            }, delay);
-        });
-    }
-    catch(e)
-    {
-        console.log('随机休眠异常：'+e.message);
-    }   
+function sleepRandom(minMs = 1000, maxMs = 5000) 
+{
+    
 }
 
 console.log("初始化脚本参数");
