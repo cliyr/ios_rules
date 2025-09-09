@@ -10,9 +10,30 @@ var bucode=``;
 var app=``;
 
 // 休眠随机时间函数
-function sleepRandom(minMs, maxMs) {
-    const delay = Math.floor(Math.random() * (maxMs - minMs + 1)) + minMs;
-    return new Promise(resolve => setTimeout(resolve, delay));
+function sleepRandom(minMs = 1000, maxMs = 5000) {
+    try
+    {
+         // 输入验证和限制
+        const validatedMin = Math.max(100, parseInt(minMs) || 1000);
+        const validatedMax = Math.min(
+            300000, // 5分钟限制
+            Math.max(validatedMin + 100, parseInt(maxMs) || 5000)
+        );        
+        const delay = Math.floor(Math.random() * (validatedMax - validatedMin + 1)) + validatedMin;
+        
+        console.log(`⏰ 随机休眠: ${delay}ms (${Math.round(delay/1000)}秒)`);
+        
+        return new Promise(resolve => {
+            const timer = setTimeout(() => {
+                clearTimeout(timer);
+                resolve();
+            }, delay);
+        });
+    }
+    catch(e)
+    {
+        console.log('随机休眠异常：'+e.message);
+    }   
 }
 
 //API格式：longfor_lottery.js#at=AAA
