@@ -5,7 +5,7 @@
 #!tag = 去广告
 #!desc = 去除天府通App广告
 #!openUrl = https://www.cdtft.cn/
-#icon = https://pp.myapp.com/ma_icon/0/icon_52635318_1757319291/256
+#!icon = https://pp.myapp.com/ma_icon/0/icon_52635318_1757319291/256
 
 [Rewrite]
 # 屏蔽广告图片 
