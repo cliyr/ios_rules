@@ -1,0 +1,22 @@
+#!name = 天府通去广告
+#!author = cliyr
+#!loon_version = 3.3.4(898)
+#!date = 2025-09-23 10:00
+
+[Rewrite]
+# 屏蔽广告图片 
+^https?:\/\/ams-cdn\.cdtft\.cn\/prod\/tft-ams\/[^.]*\.png url reject-img
+
+# 屏蔽布局拉取：重要
+^https:\/\/ams-cdn\.cdtft\.cn\/prod\/\d{8}/[^.]*\.json url reject-dict
+
+# ^https:\/\/ams-cdn\.cdtft\.cn\/prod\/\d{8}/[^.]*\.json url script-response-body https://raw.githubusercontent.com/cliyr/Apple-Rules-Script/refs/heads/main/quantumult_x/rewrite/ams-cdn-json-script.js
+
+# 屏蔽瀑布流广告
+^https:\/\/shequ\.cdtft\.cn\/gateway-customer\/appConfig-commodity-service\/commodity\/queryList url reject-dict
+
+# 屏蔽天府通打车广告
+^https:\/\/shequ\.cdtft\.cn\/gateway-customer\/ride-hailing-app\/ride\/haling\/h5url url reject-dict
+  
+[MitM]
+hostname = *.cdtft.cn
